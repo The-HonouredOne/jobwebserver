@@ -17,6 +17,7 @@ exports.createJob = catchAsync(async (req, res, next) => {
   const job = await Job.create({
     title: req.body.title,
     department: req.body.department,
+    state: req.body.state,
     category: req.body.category,
     qualification: req.body.qualification,
     totalVacancies: req.body.totalVacancies,
@@ -55,7 +56,7 @@ exports.getAllJobs = catchAsync(async (req, res, next) => {
   if (category) filter.category = category;
   if (qualification) filter.qualification = qualification;
   if (title) filter.title = { $regex: title, $options: 'i' };
-  if (state) filter.department = { $regex: state, $options: 'i' };
+  if (state) filter.state = { $regex: state, $options: 'i' };
 
   const totalJobs = await Job.countDocuments(filter);
   const jobs = await Job.find(filter)
@@ -96,6 +97,7 @@ exports.updateJob = catchAsync(async (req, res, next) => {
   const allowedFields = [
     "title",
     "department",
+    "state",
     "qualification",
     "totalVacancies",
     "salary",

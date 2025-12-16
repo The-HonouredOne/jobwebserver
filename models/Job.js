@@ -17,6 +17,13 @@ const JobSchema = new mongoose.Schema({
     required: true
   },
 
+  state: {
+    type: String,
+    required: true,
+    default: 'Unknown',
+    index: true
+  },
+
   qualification: {
     type: String,
     required: true

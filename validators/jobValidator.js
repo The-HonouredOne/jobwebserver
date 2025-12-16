@@ -10,6 +10,7 @@ exports.createJobValidator = [
     "Railway",
     "Defence"
   ]).withMessage("Invalid category"),
+  body("state").trim().notEmpty().isLength({ max: 100 }).withMessage("State/Region is required and must be under 100 characters"),
   body("qualification").trim().notEmpty().withMessage("Qualification is required"),
   body("totalVacancies").isInt({ min: 1 }).withMessage("Total vacancies must be a positive number"),
   body("salary.min").optional().isNumeric().withMessage("Salary min must be a number"),
