@@ -62,6 +62,11 @@ const jobNewsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin",
     required: true
+  },
+
+  image: {
+    type: String,
+    default: null
   }
 
 }, { timestamps: true });

@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
    CREATE NEWS (ADMIN ONLY)
 ----------------------------------- */
 exports.createJobNews = catchAsync(async (req, res, next) => {
-  const news = await JobNews.create({
+  const newsData = {
     title: req.body.title,
     type: req.body.type,
     department: req.body.department,
@@ -16,7 +16,14 @@ exports.createJobNews = catchAsync(async (req, res, next) => {
     officialLink: req.body.officialLink,
     status: req.body.status || "Published",
     postedBy: req.user.id
-  });
+  };
+
+  // Add image if uploaded
+  if (req.file) {
+    newsData.image = req.file.path;
+  }
+
+  const news = await JobNews.create(newsData);
 
   res.status(201).json({
     status: "success",
@@ -78,6 +85,12 @@ exports.updateJobNews = catchAsync(async (req, res, next) => {
     "officialLink",
     "status"
   ];
+
+  // Add image if uploaded
+  if (req.file) {
+    allowedFields.push("image");
+    req.body.image = req.file.path;
+  }
 
   const updates = {};
   allowedFields.forEach(field => {
